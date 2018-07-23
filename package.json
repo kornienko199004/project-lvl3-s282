@@ -1,6 +1,6 @@
 {
   "name": "rss_reader_23",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hexlet training project",
   "main": "index.js",
     "scripts": {
@@ -13,9 +13,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kornienko199004/project-lvl3-s282.git"
-  },
-  "bin": {
-    "gendiff": "dist/bin/gendiff.js"
   },
   "author": "kornienko199004",
   "license": "ISC",
