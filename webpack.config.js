@@ -11,7 +11,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      
       {
         test: /\.(scss)$/,
         use: [{
@@ -20,17 +19,17 @@ module.exports = {
           loader: 'css-loader', // translates CSS into CommonJS modules
         }, {
           loader: 'postcss-loader', // Run post css actions
+          /* eslint-disable */
           options: {
-            plugins: function () { // post css plugins, can be exported to postcss.config.js
-              return [
-                require('precss'),
-                require('autoprefixer')
-              ];
-            }
-          }
+            ident: 'postcss',
+            plugins: () => [
+              require('precss'),
+              require('autoprefixer'),
+            ],
+          },
         }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }]
+          loader: 'sass-loader', // compiles Sass to CSS
+        }],
       },
     ],
   },

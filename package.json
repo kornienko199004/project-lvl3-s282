@@ -3,12 +3,12 @@
   "version": "0.0.2",
   "description": "Hexlet training project",
   "main": "index.js",
-    "scripts": {
+  "scripts": {
+    "webpack-serve": "webpack-serve",
     "test": "jest",
     "babel-node": "babel-node",
-    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "eslint": "eslint",
-    "prepublish": "npm run build"
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,17 +21,32 @@
   },
   "homepage": "https://github.com/kornienko199004/project-lvl3-s282#readme",
   "dependencies": {
-    "lodash": "^4.17.5"
+    "bootstrap": "^4.1.2",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5",
+    "popper.js": "^1.14.3"
   },
   "devDependencies": {
+    "autoprefixer": "^9.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^1.0.0",
     "eslint": "^4.17.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "jest": "^22.4.3"
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^22.4.3",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "precss": "^3.1.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-serve": "^2.0.2"
   }
 }
