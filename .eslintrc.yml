@@ -5,5 +5,5 @@ env:
 
 parser: babel-eslint
 
-extends: 
+extends:
   - 'airbnb-base'

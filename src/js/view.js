@@ -8,18 +8,18 @@ export default class View {
     formElement.addEventListener('submit', this.onSubmit);
   }
 
-  getUrl() {
+  static getUrl() {
     const rssInput = document.getElementById('rssInput');
     return rssInput.value;
   }
 
-  getRssHeader(doc) {
+  static getRssHeader(doc) {
     const title = doc.querySelector('title').innerHTML;
     const caption = doc.querySelector('description').innerHTML;
     return { title, caption };
   }
 
-  getRssArticles(doc) {
+  static getRssArticles(doc) {
     const items = Array.from(doc.querySelectorAll('item'));
     return items.map((element) => {
       const link = element.querySelector('link').innerHTML;
@@ -29,8 +29,8 @@ export default class View {
   }
 
   render(doc) {
-    const header = this.getRssHeader(doc);
-    const articles = this.getRssArticles(doc);
+    const header = this.constructor.getRssHeader(doc);
+    const articles = this.constructor.getRssArticles(doc);
     const rssContainer = document.querySelector('.rss-chanels');
 
     const rssTitle = document.createTextNode(header.title);
@@ -58,7 +58,7 @@ export default class View {
     });
   }
 
-  rssInvalid(text) {
+  static rssInvalid(text) {
     const captionElement = document.getElementById('urlStatus');
     const inputElement = document.getElementById('rssInput');
 
@@ -78,18 +78,18 @@ export default class View {
   }
 
   invalidUrl() {
-    this.rssInvalid('Неправильный формат RSS адреса');
+    this.constructor.rssInvalid('Неправильный формат RSS адреса');
   }
 
   repeatUrl() {
-    this.rssInvalid('RSS канал уже добавлен');
+    this.constructor.rssInvalid('RSS канал уже добавлен');
   }
 
   netWorkTroubles() {
-    this.rssInvalid('Ошибка сети или RSS адрес не существует');
+    this.constructor.rssInvalid('Ошибка сети или RSS адрес не существует');
   }
 
-  validUrl() {
+  static validUrl() {
     const captionElement = document.getElementById('urlStatus');
     const inputElement = document.getElementById('rssInput');
 
@@ -111,7 +111,7 @@ export default class View {
     }
   }
 
-  resetUrl() {
+  static resetUrl() {
     const captionElement = document.getElementById('urlStatus');
     const inputElement = document.getElementById('rssInput');
     const rssInput = document.getElementById('rssInput');

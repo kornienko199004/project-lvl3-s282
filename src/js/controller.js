@@ -13,7 +13,7 @@ export default class Controller {
   }
 
   requestRSS(url) {
-    return this.model.request(url);
+    return this.model.constructor.request(url);
   }
 
   render(doc) {
@@ -22,25 +22,24 @@ export default class Controller {
 
   onSubmit(e) {
     e.preventDefault();
-    const url = this.view.getUrl();
+    const url = this.view.constructor.getUrl();
     if (this.urlValidation(url)) {
-      this.view.validUrl();
+      this.view.constructor.validUrl();
       this.requestRSS(url)
-      .then(response => {
-        this.render(response);
-        this.view.resetUrl();
-        this.linksList.add(url);
-      })
-      .catch((err) => {
-        console.log(err);
-        this.view.netWorkTroubles();
-      });
-    } else {
-      if (this.linksList.has(url)) {
-        this.view.repeatUrl();
-      } else {
-        this.view.invalidUrl();
-      }
+        .then((response) => {
+          this.render(response);
+          this.view.constructor.resetUrl();
+          this.linksList.add(url);
+        })
+        .catch(() => {
+          this.view.netWorkTroubles();
+        });
+    }
+    if (this.linksList.has(url)) {
+      this.view.repeatUrl();
+    }
+    if (!validator(url)) {
+      this.view.invalidUrl();
     }
   }
 
