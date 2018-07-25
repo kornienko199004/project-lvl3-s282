@@ -3,14 +3,33 @@
   <head>
     <meta charset="utf-8">
     <title>RSS reader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
   <body>
-    <div class="jumbotron">
-      <h1 class="display-4">Hello, world!</h1>
-      <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-      <hr class="my-4">
-      <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    <div class="container">
+      <div class="jumbotron">
+        <form>
+          <div class="form-group">
+            <label for="rssInput"><h1>RSS Reader</h1></label>
+            <input type="text" class="form-control" id="rssInput" aria-describedby="rss" placeholder="Enter RSS">
+            <p id="urlStatus" class="small text-muted">Добавте в новостную ленту Ваши любимые RSS каналы</p>
+          </div>
+          <button type="submit" class="btn btn-primary">Добавить RSS-канал</button>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <h4>RSS-каналы</h4>
+          <div class="col-lg- rss-chanels"></div>
+        </div>
+        <div class="col-lg-9">
+          <h4>Статьи</h4>
+          <ul class="list-group">
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
 </html>

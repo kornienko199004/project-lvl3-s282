@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/kornienko199004/project-lvl3-s282#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.5",
-    "popper.js": "^1.14.3"
+    "popper.js": "^1.14.3",
+    "validator": "^10.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^9.0.1",
