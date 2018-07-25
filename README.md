@@ -7,6 +7,9 @@
     <a href="https://codeclimate.com/github/kornienko199004/project-lvl3-s282/test_coverage"><img src="https://api.codeclimate.com/v1/badges/d916e75d84df1bc5f8d8/test_coverage" /></a>
   </li>
   <li>
+  [![Build Status](https://travis-ci.org/kornienko199004/project-lvl3-s282.svg?branch=master)](https://travis-ci.org/kornienko199004/project-lvl3-s282)
+  </li>
+  <li>
   <a href="http://kornienko_rss.surge.sh/">Ссылка на приложение</a>
   </li>
 </ul>
