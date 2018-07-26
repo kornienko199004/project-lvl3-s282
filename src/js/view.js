@@ -1,6 +1,11 @@
 export const renderHeaders = ({ headers }) => {
   const rssContainer = document.querySelector('.rss-chanels');
-  rssContainer.childNodes.forEach(child => rssContainer.removeChild(child));
+  const headerElements = rssContainer.querySelectorAll('.rss-header');
+
+  for (let i = headerElements.length - 1; i >= 0; i -= 1) {
+    rssContainer.removeChild(headerElements[i]);
+  }
+
   headers.forEach((header) => {
     const rssTitle = document.createTextNode(header.title);
     const rssCaption = document.createTextNode(header.caption);
@@ -11,6 +16,7 @@ export const renderHeaders = ({ headers }) => {
     pElement.append(rssCaption);
     divElement.append(hElement);
     divElement.append(pElement);
+    divElement.className = 'rss-header';
     pElement.classList.add('border-top');
 
     rssContainer.append(divElement);
@@ -19,19 +25,22 @@ export const renderHeaders = ({ headers }) => {
 
 export const renderArticles = ({ articles }) => {
   const articlesList = document.querySelector('.list-group');
-  articlesList.childNodes.forEach(child => articlesList.removeChild(child));
+  const ListElements = articlesList.querySelectorAll('.list-group-item');
+
+  for (let i = ListElements.length - 1; i >= 0; i -= 1) {
+    articlesList.removeChild(ListElements[i]);
+  }
 
   articles.forEach(({ link, title }) => {
     const aElement = document.createElement('a');
+    aElement.innerHTML = title;
     const liElement = document.createElement('li');
-    const linkText = document.createTextNode(title);
     const button = document.createElement('button');
-    button.className = 'btn btn-primary btn-modal';
+    button.className = 'btn btn-primary btn-description';
     button.innerHTML = 'Посмотреть описание';
 
     liElement.className = 'list-group-item d-flex justify-content-between align-items-center border-left-0 border-right-0';
     aElement.href = link;
-    aElement.append(linkText);
     liElement.append(aElement);
     liElement.append(button);
     articlesList.append(liElement);
@@ -116,3 +125,33 @@ export const resetUrl = () => {
   }
 };
 
+export const showModal = ({ link, title, description }) => {
+  const modalElement = document.querySelector('.modal');
+  const bodyElement = document.querySelector('body');
+  modalElement.style.display = 'block';
+  bodyElement.classList.add('modal-open');
+
+  const modalTitle = modalElement.querySelector('.modal-title');
+  const modalDescription = modalElement.querySelector('.modal-body');
+  const modalButtonLink = modalElement.querySelector('.modal-link');
+  modalTitle.textContent = title;
+  modalDescription.innerHTML = description;
+  modalButtonLink.href = link;
+
+  const divElement = document.createElement('div');
+  divElement.className = 'modal-backdrop fade show';
+  bodyElement.append(divElement);
+};
+
+
+export const closeModal = () => {
+  const modalElement = document.querySelector('.modal');
+  const bodyElement = document.querySelector('body');
+  if (bodyElement.classList.contains('modal-open')) {
+    modalElement.style.display = 'none';
+
+    const divElement = document.querySelector('.modal-backdrop');
+    bodyElement.removeChild(divElement);
+    bodyElement.classList.remove('modal-open');
+  }
+};

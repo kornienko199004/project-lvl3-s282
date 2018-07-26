@@ -1,6 +1,6 @@
-import view from './view';
-import { addFormSubmitListener } from './controller';
+import { addFormSubmitListener, addModalWindowEvents } from './controller';
 
 export default () => {
   addFormSubmitListener();
+  addModalWindowEvents();
 };

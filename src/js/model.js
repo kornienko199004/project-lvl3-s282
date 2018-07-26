@@ -2,7 +2,7 @@ import { watch } from 'melanke-watchjs';
 import rssRequest from './rssRequest';
 import parser from './parser';
 import validator from './validator';
-import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders } from './view';
+import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders, showModal, closeModal } from './view';
 
 export const data = {
   state: 'empty',
@@ -13,16 +13,16 @@ export const data = {
 const linksList = new Set();
 
 const getRssHeader = (doc) => {
-  const title = doc.querySelector('title').innerHTML;
-  const caption = doc.querySelector('description').innerHTML;
+  const title = doc.querySelector('title').textContent;
+  const caption = doc.querySelector('description').textContent;
   return { title, caption };
 };
 
 const getRssArticles = (doc) => {
   const items = Array.from(doc.querySelectorAll('item'));
   return items.map((element) => {
-    const link = element.querySelector('link').innerHTML;
-    const title = element.querySelector('title').innerHTML;
+    const link = element.querySelector('link').textContent;
+    const title = element.querySelector('title').textContent;
     const description = element.querySelector('description').textContent;
     return { link, title, description };
   });
@@ -72,7 +72,7 @@ watch(data, 'state', () => {
       netWorkTroubles();
       break;
     case 'repeat':
-     repeatUrl();
+      repeatUrl();
       break;
     default:
       break;
@@ -87,4 +87,10 @@ watch(data, 'articles', () => {
   renderArticles(data);
 });
 
+export const clickDescriptionButton = (buttonNumber) => {
+  showModal(data.articles[buttonNumber]);
+};
 
+export const clickClose = () => {
+  closeModal();
+};
