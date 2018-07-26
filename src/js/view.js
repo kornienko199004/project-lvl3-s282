@@ -29,7 +29,7 @@ const renderArticles = ({ articles }) => {
     const liElement = document.createElement('li');
     const linkText = document.createTextNode(title);
     const button = document.createElement('button');
-    button.className = 'btn btn-primary';
+    button.className = 'btn btn-primary btn-modal';
     button.innerHTML = 'Посмотреть описание';
 
     liElement.className = 'list-group-item d-flex justify-content-between align-items-center border-left-0 border-right-0';

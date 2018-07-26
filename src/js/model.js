@@ -39,6 +39,7 @@ export const model = (url) => {
         data.headers = [headers, ...data.headers];
         data.articles = [...articles, ...data.articles];
         linksList.add(url);
+        data.state = 'chanel added';
         data.state = 'empty';
       })
       .catch(() => {
@@ -52,3 +53,4 @@ export const model = (url) => {
     data.state = 'invalide';
   }
 };
+
