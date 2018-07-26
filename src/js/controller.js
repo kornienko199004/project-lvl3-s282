@@ -1,11 +1,10 @@
-import { model } from './model';
+import { submitUrl } from './model';
 
-export default () => {
+export const addFormSubmitListener = () => {
   const formElement = document.querySelector('form');
-
   formElement.addEventListener('submit', (e) => {
     e.preventDefault();
     const rssInput = document.getElementById('rssInput');
-    model(rssInput.value);
+    submitUrl(rssInput.value);
   });
 };

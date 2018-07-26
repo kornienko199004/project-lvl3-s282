@@ -1,7 +1,4 @@
-import { watch } from 'melanke-watchjs';
-import { data } from './model';
-
-const renderHeaders = ({ headers }) => {
+export const renderHeaders = ({ headers }) => {
   const rssContainer = document.querySelector('.rss-chanels');
   rssContainer.childNodes.forEach(child => rssContainer.removeChild(child));
   headers.forEach((header) => {
@@ -20,7 +17,7 @@ const renderHeaders = ({ headers }) => {
   });
 };
 
-const renderArticles = ({ articles }) => {
+export const renderArticles = ({ articles }) => {
   const articlesList = document.querySelector('.list-group');
   articlesList.childNodes.forEach(child => articlesList.removeChild(child));
 
@@ -41,7 +38,7 @@ const renderArticles = ({ articles }) => {
   });
 };
 
-const rssInvalid = (text) => {
+export const rssInvalid = (text) => {
   const captionElement = document.getElementById('urlStatus');
   const inputElement = document.getElementById('rssInput');
 
@@ -60,19 +57,19 @@ const rssInvalid = (text) => {
   }
 };
 
-const invalidUrl = () => {
+export const invalidUrl = () => {
   rssInvalid('Неправильный формат RSS адреса');
 };
 
-const repeatUrl = () => {
+export const repeatUrl = () => {
   rssInvalid('RSS канал уже добавлен');
 };
 
-const netWorkTroubles = () => {
+export const netWorkTroubles = () => {
   rssInvalid('Ошибка сети или RSS адрес не существует');
 };
 
-const validUrl = () => {
+export const validUrl = () => {
   const captionElement = document.getElementById('urlStatus');
   const inputElement = document.getElementById('rssInput');
 
@@ -94,7 +91,7 @@ const validUrl = () => {
   }
 };
 
-const resetUrl = () => {
+export const resetUrl = () => {
   const captionElement = document.getElementById('urlStatus');
   const inputElement = document.getElementById('rssInput');
   const rssInput = document.getElementById('rssInput');
@@ -119,32 +116,3 @@ const resetUrl = () => {
   }
 };
 
-export default () => {
-  watch(data, 'state', () => {
-    switch (data.state) {
-      case 'make request':
-        validUrl();
-        break;
-      case 'empty':
-        resetUrl();
-        break;
-      case 'invalide':
-        invalidUrl();
-        break;
-      case 'net troubles':
-        netWorkTroubles();
-        break;
-      case 'repeat':
-        repeatUrl();
-        break;
-      default:
-        break;
-    }
-  });
-  watch(data, 'headers', () => {
-    renderHeaders(data);
-  });
-  watch(data, 'articles', () => {
-    renderArticles(data);
-  });
-};

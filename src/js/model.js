@@ -1,6 +1,8 @@
+import { watch } from 'melanke-watchjs';
 import rssRequest from './rssRequest';
 import parser from './parser';
 import validator from './validator';
+import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders } from './view';
 
 export const data = {
   state: 'empty',
@@ -26,7 +28,7 @@ const getRssArticles = (doc) => {
   });
 };
 
-export const model = (url) => {
+export const submitUrl = (url) => {
   if (validator(url) && !linksList.has(url)) {
     data.state = 'make request';
 
@@ -53,4 +55,36 @@ export const model = (url) => {
     data.state = 'invalide';
   }
 };
+
+
+watch(data, 'state', () => {
+  switch (data.state) {
+    case 'make request':
+      validUrl();
+      break;
+    case 'empty':
+      resetUrl();
+      break;
+    case 'invalide':
+      invalidUrl();
+      break;
+    case 'net troubles':
+      netWorkTroubles();
+      break;
+    case 'repeat':
+     repeatUrl();
+      break;
+    default:
+      break;
+  }
+});
+
+watch(data, 'headers', () => {
+  renderHeaders(data);
+});
+
+watch(data, 'articles', () => {
+  renderArticles(data);
+});
+
 

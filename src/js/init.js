@@ -1,7 +1,6 @@
 import view from './view';
-import controller from './controller';
+import { addFormSubmitListener } from './controller';
 
 export default () => {
-  controller();
-  view();
+  addFormSubmitListener();
 };
