@@ -1,4 +1,4 @@
-import { addFormSubmitListener, addModalWindowEvents } from './controller';
+import { addFormSubmitListener, addModalWindowEvents } from './logic';
 
 export default () => {
   addFormSubmitListener();

@@ -1,10 +1,10 @@
-export const renderHeaders = ({ headers }) => {
-  const rssContainer = document.querySelector('.rss-chanels');
-  const headerElements = rssContainer.querySelectorAll('.rss-header');
+export const renderHeaders = (headers) => {
+  const headersContainer = document.getElementById('headers-container');
+  const headersList = document.querySelector('.rss-chanels');
+  headersList.remove();
 
-  for (let i = headerElements.length - 1; i >= 0; i -= 1) {
-    rssContainer.removeChild(headerElements[i]);
-  }
+  const headersListNew = document.createElement('div');
+  headersListNew.className = 'col-lg- rss-chanels';
 
   headers.forEach((header) => {
     const rssTitle = document.createTextNode(header.title);
@@ -19,17 +19,18 @@ export const renderHeaders = ({ headers }) => {
     divElement.className = 'rss-header';
     pElement.classList.add('border-top');
 
-    rssContainer.append(divElement);
+    headersListNew.append(divElement);
   });
+  headersContainer.append(headersListNew);
 };
 
-export const renderArticles = ({ articles }) => {
+export const renderArticles = (articles) => {
+  const articlesContainer = document.getElementById('articles-container');
   const articlesList = document.querySelector('.list-group');
-  const ListElements = articlesList.querySelectorAll('.list-group-item');
+  articlesList.remove();
 
-  for (let i = ListElements.length - 1; i >= 0; i -= 1) {
-    articlesList.removeChild(ListElements[i]);
-  }
+  const articlesListNew = document.createElement('ul');
+  articlesListNew.className = 'list-group';
 
   articles.forEach(({ link, title }) => {
     const aElement = document.createElement('a');
@@ -43,8 +44,9 @@ export const renderArticles = ({ articles }) => {
     aElement.href = link;
     liElement.append(aElement);
     liElement.append(button);
-    articlesList.append(liElement);
+    articlesListNew.append(liElement);
   });
+  articlesContainer.append(articlesListNew);
 };
 
 export const rssInvalid = (text) => {
@@ -52,18 +54,10 @@ export const rssInvalid = (text) => {
   const inputElement = document.getElementById('rssInput');
 
   captionElement.innerHTML = text;
-  if (captionElement.classList.contains('text-muted')) {
-    captionElement.classList.remove('text-muted');
-  }
-  if (captionElement.classList.contains('text-success')) {
-    captionElement.classList.remove('text-success');
-  }
-  if (!captionElement.classList.contains('text-danger')) {
-    captionElement.classList.add('text-danger');
-  }
-  if (!inputElement.classList.contains('is-invalid')) {
-    inputElement.classList.add('is-invalid');
-  }
+  captionElement.classList.remove('text-muted');
+  captionElement.classList.remove('text-success');
+  captionElement.classList.add('text-danger');
+  inputElement.classList.add('is-invalid');
 };
 
 export const invalidUrl = () => {
@@ -83,21 +77,11 @@ export const validUrl = () => {
   const inputElement = document.getElementById('rssInput');
 
   captionElement.innerHTML = 'Добавление RSS потока';
-  if (captionElement.classList.contains('text-muted')) {
-    captionElement.classList.remove('text-muted');
-  }
-  if (captionElement.classList.contains('text-danger')) {
-    captionElement.classList.remove('text-danger');
-  }
-  if (!captionElement.classList.contains('text-success')) {
-    captionElement.classList.add('text-success');
-  }
-  if (inputElement.classList.contains('is-invalid')) {
-    inputElement.classList.remove('is-invalid');
-  }
-  if (!inputElement.classList.contains('is-valid')) {
-    inputElement.classList.add('is-valid');
-  }
+  captionElement.classList.remove('text-muted');
+  captionElement.classList.remove('text-danger');
+  captionElement.classList.add('text-success');
+  inputElement.classList.remove('is-invalid');
+  inputElement.classList.add('is-valid');
 };
 
 export const resetUrl = () => {
@@ -108,24 +92,14 @@ export const resetUrl = () => {
   rssInput.value = '';
 
   captionElement.innerHTML = 'Добавте в новостную ленту Ваши любимые RSS каналы';
-  if (!captionElement.classList.contains('text-muted')) {
-    captionElement.classList.add('text-muted');
-  }
-  if (captionElement.classList.contains('text-danger')) {
-    captionElement.classList.remove('text-danger');
-  }
-  if (captionElement.classList.contains('text-success')) {
-    captionElement.classList.remove('text-success');
-  }
-  if (inputElement.classList.contains('is-invalid')) {
-    inputElement.classList.remove('is-invalid');
-  }
-  if (inputElement.classList.contains('is-valid')) {
-    inputElement.classList.remove('is-valid');
-  }
+  captionElement.classList.add('text-muted');
+  captionElement.classList.remove('text-danger');
+  captionElement.classList.remove('text-success');
+  inputElement.classList.remove('is-invalid');
+  inputElement.classList.remove('is-valid');
 };
 
-export const showModal = ({ link, title, description }) => {
+export const renderModal = ({ link, title, description }) => {
   const modalElement = document.querySelector('.modal');
   const bodyElement = document.querySelector('body');
   modalElement.style.display = 'block';
@@ -144,7 +118,7 @@ export const showModal = ({ link, title, description }) => {
 };
 
 
-export const closeModal = () => {
+export const hideModal = () => {
   const modalElement = document.querySelector('.modal');
   const bodyElement = document.querySelector('body');
   if (bodyElement.classList.contains('modal-open')) {
