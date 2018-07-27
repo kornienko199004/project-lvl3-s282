@@ -7,7 +7,7 @@ const state = {
   modalNumber: -1,
   headers: [],
   articles: [],
-  linksList: new Set(),
+  linksList: new Map(),
 };
 
 watch(state, 'rssUrlState', () => {

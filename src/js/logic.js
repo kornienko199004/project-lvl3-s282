@@ -31,7 +31,7 @@ const makeRequest = (url) => {
 
         state.headers = [headers, ...state.headers];
         state.articles = [...articles, ...state.articles];
-        state.linksList.add(url);
+        state.linksList.set(url, articles);
         state.rssUrlState = 'chanel added';
         state.rssUrlState = 'empty';
       })
@@ -87,4 +87,34 @@ export const addModalWindowEvents = () => {
       closeModal();
     }
   });
+};
+
+export const changeLooking = () => {
+  const chanelsLinks = Array.from(state.linksList.keys());
+  const chanelsArticlesSet = new Set();
+
+  state.linksList.forEach((value) => {
+    value.forEach(({ title }) => {
+      chanelsArticlesSet.add(title);
+    });
+  });
+
+  const readChanels = links => Promise.all(links.map(rssRequest));
+
+  readChanels(chanelsLinks)
+    .then((results) => {
+      results.forEach((result, index) => {
+        const doc = parser(result);
+        const articles = getRssArticles(doc);
+        const newChanelArticles = articles.filter(({ title }) => !chanelsArticlesSet.has(title));
+
+        if (newChanelArticles.length > 0) {
+          state.articles = [...newChanelArticles, ...state.articles];
+          const chanelLink = chanelsLinks[index];
+          const oldArticles = state.linksList.get(chanelLink);
+          state.linksList.set(chanelLink, [...newChanelArticles, ...oldArticles]);
+        }
+      });
+      setTimeout(changeLooking, 5000);
+    });
 };
