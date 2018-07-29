@@ -113,6 +113,6 @@ export const searchingForChanges = (state) => {
           state.linksList.set(changedlLink, [...newChanelArticles, ...oldArticles]);
         }
       });
-      setTimeout(searchingForChanges, 5000, state);
-    });
+    })
+    .finally(() => setTimeout(searchingForChanges, 5000, state));
 };
