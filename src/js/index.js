@@ -1,7 +1,9 @@
-import { addFormSubmitListener, addModalWindowEvents, changeLooking } from './logic';
+import { addFormSubmitListener, addModalWindowEvents, searchingForChanges } from './logic';
+import State from './state';
 
 export default () => {
-  addFormSubmitListener();
-  addModalWindowEvents();
-  changeLooking();
+  const data = new State();
+  addFormSubmitListener(data);
+  addModalWindowEvents(data);
+  searchingForChanges(data);
 };

@@ -1,7 +1,6 @@
 import rssRequest from './rssRequest';
 import parser from './parser';
 import validator from './validator';
-import state from './state';
 
 const getRssHeader = (doc) => {
   const title = doc.querySelector('title').textContent;
@@ -19,9 +18,9 @@ const getRssArticles = (doc) => {
   });
 };
 
-const makeRequest = (url) => {
+const makeRequest = (state, url) => {
   if (validator(url) && !state.linksList.has(url)) {
-    state.rssUrlState = 'make request';
+    state.changeRssUrlStage('make request');
 
     rssRequest(url)
       .then((response) => {
@@ -29,67 +28,67 @@ const makeRequest = (url) => {
         const headers = getRssHeader(doc);
         const articles = getRssArticles(doc);
 
-        state.headers = [headers, ...state.headers];
-        state.articles = [...articles, ...state.articles];
-        state.linksList.set(url, articles);
-        state.rssUrlState = 'chanel added';
-        state.rssUrlState = 'empty';
+        state.headersAdd(headers);
+        state.articlesAdd(articles);
+        state.linksListSet(url, articles);
+        state.changeRssUrlStage('chanel added');
+        state.changeRssUrlStage('empty');
       })
       .catch(() => {
-        state.rssUrlState = 'net troubles';
+        state.changeRssUrlStage('net troubles');
       });
   }
   if (state.linksList.has(url)) {
-    state.rssUrlState = 'repeat';
+    state.changeRssUrlStage('repeat');
   }
   if (!validator(url)) {
-    state.rssUrlState = 'invalide';
+    state.changeRssUrlStage('invalide');
   }
 };
 
-const showModal = (modalNumber) => {
-  state.modalState = 'show';
-  state.modalNumber = modalNumber;
+const showModal = (state, modalNumber) => {
+  state.changeModalState('show');
+  state.changeModalNumber(modalNumber);
 };
 
-const closeModal = () => {
-  state.modalState = 'hidden';
+const closeModal = (state) => {
+  state.changeModalState('hidden');
 };
 
-export const addFormSubmitListener = () => {
+export const addFormSubmitListener = (state) => {
   const formElement = document.querySelector('form');
   formElement.addEventListener('submit', (e) => {
     e.preventDefault();
     const rssInput = document.getElementById('rssInput');
-    makeRequest(rssInput.value);
+    makeRequest(state, rssInput.value);
   });
 };
 
-export const addModalWindowEvents = () => {
+export const addModalWindowEvents = (state) => {
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-description')) {
       const ulElement = e.target.parentElement.parentElement;
       for (let i = 0; i < ulElement.children.length; i += 1) {
         if (ulElement.children[i] === e.target.parentElement) {
-          showModal(i);
+          showModal(state, i);
         }
       }
     }
     if (e.target.classList.contains('close')) {
-      closeModal();
+      closeModal(state);
     }
     if (e.target.classList.contains('modal')) {
-      closeModal();
+      closeModal(state);
     }
   });
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === 27) {
-      closeModal();
+      closeModal(state);
     }
   });
 };
 
-export const changeLooking = () => {
+export const searchingForChanges = (state) => {
   const chanelsLinks = Array.from(state.linksList.keys());
   const chanelsArticlesSet = new Set();
 
@@ -98,7 +97,6 @@ export const changeLooking = () => {
       chanelsArticlesSet.add(title);
     });
   });
-
   const readChanels = links => Promise.all(links.map(rssRequest));
 
   readChanels(chanelsLinks)
@@ -107,14 +105,14 @@ export const changeLooking = () => {
         const doc = parser(result);
         const articles = getRssArticles(doc);
         const newChanelArticles = articles.filter(({ title }) => !chanelsArticlesSet.has(title));
-
         if (newChanelArticles.length > 0) {
-          state.articles = [...newChanelArticles, ...state.articles];
-          const chanelLink = chanelsLinks[index];
-          const oldArticles = state.linksList.get(chanelLink);
-          state.linksList.set(chanelLink, [...newChanelArticles, ...oldArticles]);
+          state.articlesAdd(newChanelArticles);
+          const changedlLink = chanelsLinks[index];
+          const oldArticles = state.linksList.get(changedlLink);
+          state.linksListSet(changedlLink, articles);
+          state.linksList.set(changedlLink, [...newChanelArticles, ...oldArticles]);
         }
       });
-      setTimeout(changeLooking, 5000);
+      setTimeout(searchingForChanges, 5000, state);
     });
 };
