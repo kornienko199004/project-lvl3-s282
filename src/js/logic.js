@@ -2,31 +2,15 @@ import rssRequest from './rssRequest';
 import parser from './parser';
 import validator from './validator';
 
-const getRssHeader = (doc) => {
-  const title = doc.querySelector('title').textContent;
-  const caption = doc.querySelector('description').textContent;
-  return { title, caption };
-};
-
-const getRssArticles = (doc) => {
-  const items = Array.from(doc.querySelectorAll('item'));
-  return items.map((element) => {
-    const link = element.querySelector('link').textContent;
-    const title = element.querySelector('title').textContent;
-    const description = element.querySelector('description').textContent;
-    return { link, title, description };
-  });
-};
-
 const makeRequest = (state, url) => {
   if (validator(url) && !state.linksList.has(url)) {
     state.changeRssUrlStage('make request');
 
     rssRequest(url)
       .then((response) => {
-        const doc = parser(response);
-        const headers = getRssHeader(doc);
-        const articles = getRssArticles(doc);
+        const parseredObject = parser(response);
+        const { headers } = parseredObject;
+        const { articles } = parseredObject;
 
         state.headersAdd(headers);
         state.articlesAdd(articles);
@@ -102,8 +86,9 @@ export const searchingForChanges = (state) => {
   readChanels(chanelsLinks)
     .then((results) => {
       results.forEach((result, index) => {
-        const doc = parser(result);
-        const articles = getRssArticles(doc);
+        const parseredObject = parser(result);
+        const { articles } = parseredObject;
+
         const newChanelArticles = articles.filter(({ title }) => !chanelsArticlesSet.has(title));
         if (newChanelArticles.length > 0) {
           state.articlesAdd(newChanelArticles);
