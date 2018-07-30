@@ -8,15 +8,7 @@ const makeRequest = (state, url) => {
 
     rssRequest(url)
       .then((response) => {
-        const parseredObject = parser(response);
-        const { headers } = parseredObject;
-        const { articles } = parseredObject;
-
-        state.headersAdd(headers);
-        state.articlesAdd(articles);
-        state.linksListSet(url, articles);
-        state.changeRssUrlStage('chanel added');
-        state.changeRssUrlStage('empty');
+        state.addRss(url, response);
       })
       .catch(() => {
         state.changeRssUrlStage('net troubles');

@@ -84,6 +84,20 @@ export const validUrl = () => {
   inputElement.classList.add('is-valid');
 };
 
+export const blockForm = () => {
+  const inputElement = document.getElementById('rssInput');
+  const buttonElement = document.getElementById('button-submit');
+  inputElement.disabled = true;
+  buttonElement.disabled = true;
+};
+
+export const unBlockForm = () => {
+  const inputElement = document.getElementById('rssInput');
+  const buttonElement = document.getElementById('button-submit');
+  inputElement.disabled = false;
+  buttonElement.disabled = false;
+};
+
 export const resetUrl = () => {
   const captionElement = document.getElementById('urlStatus');
   const inputElement = document.getElementById('rssInput');

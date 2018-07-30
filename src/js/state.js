@@ -1,5 +1,6 @@
 import { watch } from 'melanke-watchjs';
-import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders, renderModal, hideModal } from './view';
+import parser from './parser';
+import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders, renderModal, hideModal, blockForm, unBlockForm } from './view';
 
 export default class State {
   constructor() {
@@ -14,15 +15,18 @@ export default class State {
       switch (this.rssUrlState) {
         case 'make request':
           validUrl();
+          blockForm();
           break;
         case 'empty':
           resetUrl();
+          unBlockForm();
           break;
         case 'invalide':
           invalidUrl();
           break;
         case 'net troubles':
           netWorkTroubles();
+          unBlockForm();
           break;
         case 'repeat':
           repeatUrl();
@@ -52,6 +56,18 @@ export default class State {
           break;
       }
     });
+  }
+
+  addRss(url, res) {
+    const parseredObject = parser(res);
+    const { headers } = parseredObject;
+    const { articles } = parseredObject;
+
+    this.headersAdd(headers);
+    this.articlesAdd(articles);
+    this.linksListSet(url, articles);
+    this.changeRssUrlStage('chanel added');
+    this.changeRssUrlStage('empty');
   }
 
   changeRssUrlStage(newStage) {
