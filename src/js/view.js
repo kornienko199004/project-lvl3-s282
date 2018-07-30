@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export const renderHeaders = (headers) => {
   const headersContainer = document.getElementById('headers-container');
   const headersList = document.querySelector('.rss-chanels');
@@ -37,7 +39,7 @@ export const renderArticles = (articles) => {
     aElement.innerHTML = title;
     const liElement = document.createElement('li');
     const button = document.createElement('button');
-    button.className = 'btn btn-primary btn-description';
+    button.className = 'btn btn-primary btn-description ml-auto';
     button.innerHTML = 'Посмотреть описание';
 
     liElement.className = 'list-group-item d-flex justify-content-between align-items-center border-left-0 border-right-0';
@@ -115,9 +117,8 @@ export const resetUrl = () => {
 
 export const renderModal = ({ link, title, description }) => {
   const modalElement = document.querySelector('.modal');
-  const bodyElement = document.querySelector('body');
-  modalElement.style.display = 'block';
-  bodyElement.classList.add('modal-open');
+
+  $('#exampleModal').modal('show');
 
   const modalTitle = modalElement.querySelector('.modal-title');
   const modalDescription = modalElement.querySelector('.modal-body');
@@ -125,21 +126,9 @@ export const renderModal = ({ link, title, description }) => {
   modalTitle.textContent = title;
   modalDescription.innerHTML = description;
   modalButtonLink.href = link;
-
-  const divElement = document.createElement('div');
-  divElement.className = 'modal-backdrop fade show';
-  bodyElement.append(divElement);
 };
 
 
 export const hideModal = () => {
-  const modalElement = document.querySelector('.modal');
-  const bodyElement = document.querySelector('body');
-  if (bodyElement.classList.contains('modal-open')) {
-    modalElement.style.display = 'none';
-
-    const divElement = document.querySelector('.modal-backdrop');
-    bodyElement.removeChild(divElement);
-    bodyElement.classList.remove('modal-open');
-  }
+  $('#exampleModal').modal('hide');
 };
