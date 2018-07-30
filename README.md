@@ -5,14 +5,14 @@
 [![Build Status](https://travis-ci.org/kornienko199004/project-lvl3-s282.svg?branch=master)](https://travis-ci.org/kornienko199004/project-lvl3-s282)
 
 
-## Установка приложения
+### Установка приложения
 
 `make install`
 
-## Запуск приложения
+### Запуск приложения
 
 `make develop`
 
 
-## Ссылка на приложение
+### Ссылка на приложение
 [Приложение](http://kornienko_rss.surge.sh/)
