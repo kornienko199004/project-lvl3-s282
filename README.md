@@ -12,3 +12,7 @@
 ## Запуск приложения
 
 `make develop`
+
+## Ссылка на приложение
+
+`http://kornienko_rss.surge.sh/`
