@@ -1,6 +1,4 @@
-import { watch } from 'melanke-watchjs';
 import parser from './parser';
-import { validUrl, resetUrl, repeatUrl, netWorkTroubles, invalidUrl, renderArticles, renderHeaders, renderModal, hideModal, blockForm, unBlockForm } from './view';
 
 export default class State {
   constructor() {
@@ -10,52 +8,6 @@ export default class State {
     this.headers = [];
     this.articles = [];
     this.linksList = new Map();
-
-    watch(this, 'rssUrlState', () => {
-      switch (this.rssUrlState) {
-        case 'make request':
-          validUrl();
-          blockForm();
-          break;
-        case 'empty':
-          resetUrl();
-          unBlockForm();
-          break;
-        case 'invalide':
-          invalidUrl();
-          break;
-        case 'net troubles':
-          netWorkTroubles();
-          unBlockForm();
-          break;
-        case 'repeat':
-          repeatUrl();
-          break;
-        default:
-          break;
-      }
-    });
-
-    watch(this, 'headers', () => {
-      renderHeaders(this.headers);
-    });
-
-    watch(this, 'articles', () => {
-      renderArticles(this.articles);
-    });
-
-    watch(this, 'modalState', () => {
-      switch (this.modalState) {
-        case 'hidden':
-          hideModal();
-          break;
-        case 'show':
-          renderModal(this.articles[this.modalNumber]);
-          break;
-        default:
-          break;
-      }
-    });
   }
 
   addRss(url, res) {

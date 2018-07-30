@@ -1,9 +1,9 @@
 import rssRequest from './rssRequest';
 import parser from './parser';
-import validator from './validator';
+import isValid from './validator';
 
 const makeRequest = (state, url) => {
-  if (validator(url) && !state.linksList.has(url)) {
+  if (isValid(url) && !state.linksList.has(url)) {
     state.changeRssUrlStage('make request');
 
     rssRequest(url)
@@ -17,7 +17,7 @@ const makeRequest = (state, url) => {
   if (state.linksList.has(url)) {
     state.changeRssUrlStage('repeat');
   }
-  if (!validator(url)) {
+  if (!isValid(url)) {
     state.changeRssUrlStage('invalide');
   }
 };
@@ -44,11 +44,16 @@ export const addModalWindowEvents = (state) => {
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-description')) {
       const ulElement = e.target.parentElement.parentElement;
-      for (let i = 0; i < ulElement.children.length; i += 1) {
-        if (ulElement.children[i] === e.target.parentElement) {
-          showModal(state, i);
+
+      const iter = (acc) => {
+        if (ulElement.children[acc] === e.target.parentElement) {
+          showModal(state, acc);
+          return null;
         }
-      }
+        const newAcc = acc + 1;
+        return iter(newAcc);
+      };
+      iter(0);
     }
     if (e.target.classList.contains('close')) {
       closeModal(state);
