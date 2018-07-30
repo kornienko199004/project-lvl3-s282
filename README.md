@@ -13,7 +13,6 @@
 
 `make develop`
 
----
 
 ## Ссылка на приложение
 [Приложение](http://kornienko_rss.surge.sh/)
