@@ -15,4 +15,4 @@
 
 
 ### Ссылка на приложение
-[Приложение](http://kornienko_rss.surge.sh/)
+[Rss Reader](http://kornienko_rss.surge.sh/)
