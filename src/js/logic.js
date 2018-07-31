@@ -44,12 +44,10 @@ export const addModalWindowEvents = (state) => {
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('btn-description')) {
       const ulElement = e.target.parentElement.parentElement;
-      let i = 0;
-      for (const liElement of ulElement.children) {
-        if (liElement === e.target.parentElement) {
+      for (let i = 0; i < ulElement.children.length; i += 1) {
+        if (ulElement.children[i] === e.target.parentElement) {
           showModal(state, i);
         }
-        i += 1;
       }
     }
     if (e.target.classList.contains('close')) {
